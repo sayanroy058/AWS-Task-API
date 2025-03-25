@@ -217,13 +217,17 @@ def fetch_products():
     db.session.commit()
     return jsonify({'message': 'Products fetched and stored successfully'}), 201
 
-# Create database
-def create_database():
-    if not os.path.exists(DATABASE_PATH):
-        with app.app_context():
-            db.create_all()
-            print('Database created successfully.')
+# Initialize database
+def init_db():
+    with app.app_context():
+        db.create_all()
+        print('Database initialized successfully.')
+
+# Create database tables before first request
+@app.before_first_request
+def create_tables():
+    init_db()
 
 if __name__ == '__main__':
-    create_database()
-    app.run(port=5001, debug=True)
+    init_db()
+    app.run(debug=True)
