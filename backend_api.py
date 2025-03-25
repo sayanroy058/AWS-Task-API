@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # MySQL Configuration
 DB_CONFIG = {
